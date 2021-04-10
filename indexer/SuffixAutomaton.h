@@ -3,9 +3,10 @@
 
 #include <filesystem>
 #include <iostream>
-#include <map>
 #include <utility>
 #include <fstream>
+#include <cassert>
+#include <map>
 #include <set>
 
 namespace fs = std::filesystem;
@@ -33,7 +34,7 @@ private:
 public:
     explicit SuffixAutomaton();
 
-    void build(fs::path sDataPath);
+    void build(fs::path data_path);
 
     [[nodiscard]] bool wordIn(const std::string& word) const;
 
@@ -41,7 +42,7 @@ public:
 
     void printAllOccurrences(const std::string& word) const;
 
-    void loadDataToDisk(const fs::path& sDataPath) const;
+    void loadDataToDisk(const fs::path& data_path) const;
 
 private:
 

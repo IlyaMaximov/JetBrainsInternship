@@ -4,8 +4,8 @@ SuffixAutomaton::SuffixAutomaton() {
     states_.emplace_back();
 }
 
-void SuffixAutomaton::build(fs::path sDataPath) {
-    data_path_ = std::move(sDataPath);
+void SuffixAutomaton::build(fs::path data_path) {
+    data_path_ = std::move(data_path);
 
     std::ifstream fin(data_path_);
     if (!fin.is_open()) {
@@ -16,7 +16,7 @@ void SuffixAutomaton::build(fs::path sDataPath) {
 
     // get length of file for states_ reserve
     fin.seekg(0, std::ios::end);
-    states_.reserve(fin.tellg());
+    states_.reserve(2 * fin.tellg());
     fin.seekg(0, std::ios::beg);
 
     char next_symbol = ' ';
@@ -124,6 +124,7 @@ void SuffixAutomaton::printAllOccurrences(const std::string &word) const {
         fin >> line;
         std::cout << line << '\n';
     }
+    fin.close();
 }
 
 void SuffixAutomaton::getAllOccurrences(u_int tmp_state, std::set<u_int> &occurrences) const {
@@ -134,5 +135,49 @@ void SuffixAutomaton::getAllOccurrences(u_int tmp_state, std::set<u_int> &occurr
     }
 }
 
+void SuffixAutomaton::loadDataToDisk(const fs::path& data_path) const {
+    // записываю мой автомат в файл в бинарном формате
+    std::ofstream out(data_path, std::ios::out | std::ios::binary);
 
+    // здесь я буду хранить сдвиги для каждого 1000 state
+    uint32_t word_shift_size = 1000;
+    uint32_t words_shifts_cnt = (states_.size() + word_shift_size - 1) / word_shift_size;
+    std::vector<uint32_t> words_shifts(words_shifts_cnt);
+
+    out.write((char *) &words_shifts_cnt, sizeof(words_shifts_cnt));
+    out.seekp(sizeof(uint32_t) + words_shifts_cnt * sizeof(uint32_t));
+
+    uint32_t char_num = 0;
+    uint32_t shift_num = 0;
+    for (const auto& state: states_) {
+
+        uint32_t edges_size = state.edges.size();
+        uint32_t suf_links_size = state.inv_suf_links.size();
+
+        if (char_num % 1000 == 0) {
+            words_shifts[shift_num] = out.tellp();
+            ++shift_num;
+        }
+
+        out.write((char *) &state.first_line, sizeof(state.first_line));
+
+        out.write((char *) &edges_size, sizeof(edges_size));
+        for (const auto [symbol, state_num]: state.edges) {
+            out.write((char *) &symbol, sizeof(symbol));
+            out.write((char *) &state_num, sizeof(state_num));
+        }
+
+        out.write((char *) &suf_links_size, sizeof (suf_links_size));
+        out.write((char *) state.inv_suf_links.data(), suf_links_size * sizeof(uint32_t));
+
+        ++char_num;
+    }
+    assert(words_shifts.size() == words_shifts_cnt);
+    assert(words_shifts.size() == shift_num);
+
+    out.seekp(sizeof(uint32_t));
+    out.write((char *) words_shifts.data(), words_shifts.size() * sizeof(words_shifts.front()));
+
+    out.close();
+}
 
