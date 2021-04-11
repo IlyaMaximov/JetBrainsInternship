@@ -180,4 +180,3 @@ void SuffixAutomaton::loadDataToDisk(const fs::path& data_path) const {
 
     out.close();
 }
-

@@ -94,7 +94,3 @@ void DiskSearcher::printOccurrences(u_int tmp_state, std::set<u_int> &occurrence
         printOccurrences(state_view.inv_suf_links[link_num], occurrences, fin);
     }
 }
-
-
-
-

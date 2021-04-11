@@ -1,5 +1,5 @@
 # JetBrainsInternship
-Introductory assignment for the internship (improving Rider integration with Unreal Editor)
+Introductory assignment for the internship (improving Rider integration with Unreal Editor).
 
 Опишу что есть в проекте по шагам.
 
@@ -18,7 +18,7 @@ Introductory assignment for the internship (improving Rider integration with Unr
 2) `substring-index-search`
 
     Находит всевозможные вхождения подстроки. Здесь я веду работу с файлом `prepared_words.bin`, не храня его полностью в 
-    оперативе. Кроме того я вызвал `mmap` для этого файла, чтобы ускорить работу моей программы (появится кыширование).
+    оперативе. Кроме того я вызвал `mmap` для этого файла, чтобы ускорить работу моей программы (появится кэширование).
     По сути, моя программа ходит по вершинам автомата, прыгая по отображённой памяти. Чтобы быстро перемещаться по 
     файлу я храню сдвиг каждой 1000 вершины (это считается нормальной практикой).
 
@@ -32,8 +32,8 @@ Introductory assignment for the internship (improving Rider integration with Unr
 
 4) `substring-parallel-search`
 
-   Примерно то же самое, что и в `subsequence-parallel-search`. Для каждой строки в блоке нужно построить 
-   префикс-функцию и проверить наличие нужной в ней подстроки
+   Примерно то же самое, что и в `subsequence-parallel-search`. Для каждой строки в блоке нужно роверить наличие нужной
+   в ней подстроки, построив префикс-функцию.
 
 
 *Замечание:*
