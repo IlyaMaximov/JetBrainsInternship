@@ -10,13 +10,13 @@ set(SOURCE_INDEXER
 )
 
 set(SOURCE_INDEX_SUBSTRING_SEARCH
-    substring_searcher/DiskSearcher.cpp
-    substring_searcher/IndexSearch.cpp
+   index_searcher/DiskSearcher.cpp
+   index_searcher/IndexSearch.cpp
 )
 
 set(SOURCE_PARALLEL_SUBSTRING_SEARCH
     parallel_search/ParallelSearcher.cpp
-        parallel_search/StrSearch.cpp
+    parallel_search/StrSearch.cpp
 )
 
 set(SOURCE_PARALLEL_SUBSEQUENCE_SEARCH
