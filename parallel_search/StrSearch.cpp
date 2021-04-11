@@ -1,8 +1,10 @@
-#include "DiskSearcher.h"
+#include "ParallelSearcher.h"
+
+#include <iostream>
 
 int main() {
 
-    DiskSearcher searcher("../data/prepared_words.txt", "../data/words.txt");
+    ParallelSearcher searcher("../data/words.txt");
     std::string match, command = "NOT STATED";
 
     while (true) {
@@ -10,7 +12,7 @@ int main() {
         std::cin >> match;
 
         std::cout << "Matching strings: " << std::endl;
-        searcher.printAllOccurrences(match);
+        searcher.printAllOccurrences(match, SearchType::SUBSTRING);
 
         while (command != "Y" && command != "N" && command != "y" && command != "n") {
             std::cout << "Do you want to continue (Y / N): ";

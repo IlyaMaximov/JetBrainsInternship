@@ -12,7 +12,7 @@ int main() {
     suffix_automation.build("../data/words.txt");
 
     logInfo("Loading data to the file  ...")
-    suffix_automation.loadDataToDisk("../data/prepared_words.txt");
+    suffix_automation.loadDataToDisk("../data/prepared_words.bin");
 
     logInfo("Indexing is finished")
 

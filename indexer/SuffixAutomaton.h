@@ -24,10 +24,10 @@ private:
             suf_link(link),
             edges(std::move(edges)) {}
 
-        uint32_t max_len = 0; // длина самой длинной строки принимаемой этим состоянием
+        uint32_t max_len = 0;     // длина самой длинной строки принимаемой этим состоянием
         uint32_t first_line = -1; // первая строка вхождения match в автомат
-        uint32_t suf_link = -1; // суффиксная ссылка, хранит state_num
-        std::map<char, uint32_t> edges{}; // ребра переходов в другие состояния
+        uint32_t suf_link = -1;   // суффиксная ссылка, хранит state_num
+        std::map<char, uint32_t> edges{};      // ребра переходов в другие состояния
         std::vector<uint32_t> inv_suf_links{}; // инвертированные суффиксные ссылки ведущие в это состояние
     };
 

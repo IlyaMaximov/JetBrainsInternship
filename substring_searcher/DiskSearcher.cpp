@@ -9,7 +9,7 @@ DiskSearcher::DiskSearcher(fs::path data_path, fs::path source_data_path):
 
     if (!fs::exists(data_path_)) {
         logError("Prepared data file does not exist")
-        return;
+        exit(1);
     }
 
     std::ifstream in(data_path_, std::ifstream::ate | std::ifstream::binary);
@@ -75,18 +75,12 @@ void DiskSearcher::printAllOccurrences(const std::string &word) const {
 
     std::set<uint32_t> all_occurrences;
     std::ifstream fin(source_data_path_);
-    getAllOccurrences(tmp_state, all_occurrences, fin);
+    printOccurrences(tmp_state, all_occurrences, fin);
 
-    std::string line;
-    for (uint32_t occurrence_pos: all_occurrences) {
-        fin.seekg(occurrence_pos);
-        fin >> line;
-        std::cout << line << '\n';
-    }
     fin.close();
 }
 
-void DiskSearcher::getAllOccurrences(u_int tmp_state, std::set<u_int> &occurrences, std::ifstream& fin) const {
+void DiskSearcher::printOccurrences(u_int tmp_state, std::set<u_int> &occurrences, std::ifstream& fin) const {
     StateView state_view = data_view_.getStateView(tmp_state);
     std::string line;
 
@@ -97,7 +91,7 @@ void DiskSearcher::getAllOccurrences(u_int tmp_state, std::set<u_int> &occurrenc
         occurrences.insert(state_view.first_line);
     }
     for (uint32_t link_num = 0; link_num < state_view.links_cnt; ++link_num) {
-        getAllOccurrences(state_view.inv_suf_links[link_num], occurrences, fin);
+        printOccurrences(state_view.inv_suf_links[link_num], occurrences, fin);
     }
 }
 

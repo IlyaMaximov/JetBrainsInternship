@@ -23,7 +23,7 @@ public:
 
 private:
 
-    void getAllOccurrences(u_int tmp_state, std::set<u_int> &occurrences, std::ifstream& fin) const;
+    void printOccurrences(u_int tmp_state, std::set<u_int> &occurrences, std::ifstream& fin) const;
 
     struct StateView {
         explicit StateView(void* data);
